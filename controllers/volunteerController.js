@@ -57,4 +57,22 @@ const registerVolunteerController = async (req, res) => {
   }
 };
 
-export { registerVolunteerController };
+// METHOD:GET || Getting List of candidates
+const listofcandidates = async (req, res) => {
+  try {
+    const list = await volunteerModel.find();
+
+    res.status(200).send({
+      success: true,
+      message: "List of Candidates",
+      list,
+    });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      message: "Unable to get list of candidates",
+      error,
+    });
+  }
+};
+export { registerVolunteerController, listofcandidates };
