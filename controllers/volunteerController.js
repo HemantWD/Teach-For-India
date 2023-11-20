@@ -1,4 +1,4 @@
-import volunteerModel from "../Model/volunteerModel.js";
+import volunteerModel from "../model/volunteerModel.js";
 
 // METHOD:POST || REGISTER VOLUNTEER
 const registerVolunteerController = async (req, res) => {
