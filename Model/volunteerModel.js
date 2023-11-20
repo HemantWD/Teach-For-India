@@ -24,12 +24,12 @@ const volunteerSchema = new mongoose.Schema({
   },
   availability: [
     {
-      type: String,
+      type: [String],
       enum: [
         "Monday",
         "Tuesday",
         "Wednesday",
-        "Thrusday",
+        "Thursday",
         "Friday",
         "Saturday",
         "Sunday",
