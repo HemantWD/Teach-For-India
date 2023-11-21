@@ -2,6 +2,9 @@ import adminModel from "../model/adminModel.js";
 import volunteerModel from "../model/volunteerModel.js";
 import bcrypt from "bcrypt";
 import JWT from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // METHOD:POST || REGISTER VOLUNTEER
 const registerVolunteerController = async (req, res) => {
