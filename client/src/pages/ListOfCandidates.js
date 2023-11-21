@@ -8,7 +8,7 @@ const ListOfCandidates = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/listofcandidates"
+          `${process.env.REACT_APP_API}/api/listofcandidates`
         );
         setData(response.data.list);
         // console.log(response.data.list);

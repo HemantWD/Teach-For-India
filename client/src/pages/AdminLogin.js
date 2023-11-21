@@ -12,10 +12,13 @@ const AdminLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/admin", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_API}/api/admin`,
+        {
+          email,
+          password,
+        }
+      );
       if (response.data.success) {
         navigate("/listofcandidates");
       } else {

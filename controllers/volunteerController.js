@@ -83,10 +83,11 @@ const listofcandidates = async (req, res) => {
   }
 };
 
-// METHOD:POST || ADMIN LOGIN
+// METHOD: POST || ADMIN LOGIN
 const adminLoginController = async (req, res) => {
   try {
     const { email, password } = req.body;
+
     // validation
     if (!email || !password) {
       return res.status(404).send({
@@ -94,10 +95,11 @@ const adminLoginController = async (req, res) => {
         message: "Invalid Email or password",
       });
     }
+
     // checking admin
     const admin = await adminModel.findOne({ email });
     if (!admin) {
-      res.status(404).send({
+      return res.status(404).send({
         success: false,
         message: "No Admin is registered",
       });
@@ -106,18 +108,18 @@ const adminLoginController = async (req, res) => {
     // decrypting password
     const match = await bcrypt.compare(password, admin.password);
     if (!match) {
-      res.status(200).send({
+      return res.status(200).send({
         success: false,
         message: "Invalid Password",
       });
     }
 
     // token creation
-
     const token = JWT.sign({ userId: admin._id }, process.env.JWT_SECRET, {
       expiresIn: "15m",
     });
-    res.status(200).send({
+
+    return res.status(200).send({
       success: true,
       message: "Logged In Successfully",
       admin: {
@@ -128,10 +130,11 @@ const adminLoginController = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).send({
+    return res.status(500).send({
       success: false,
       message: "Internal Server Error",
     });
   }
 };
+
 export { registerVolunteerController, listofcandidates, adminLoginController };

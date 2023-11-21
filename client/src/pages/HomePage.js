@@ -17,14 +17,17 @@ const HomePage = () => {
     e.preventDefault();
     // console.log(name, email, phone, location, languages, availableDays);
     try {
-      const response = await axios.post("http://localhost:5000/api/register", {
-        name,
-        email,
-        phone,
-        location,
-        language,
-        availability: availability.split(","),
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_API}/api/register`,
+        {
+          name,
+          email,
+          phone,
+          location,
+          language,
+          availability: availability.split(","),
+        }
+      );
       if (response.data.success) {
         alert(response.data.message);
         navigate("/");
