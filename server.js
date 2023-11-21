@@ -4,6 +4,8 @@ import connectDB from "./config/db.js";
 import cors from "cors";
 import volunteerRoutes from "./routes/volunteerRoutes.js";
 import allocationController from "./routes/allocationRoute.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
 // config env
 dotenv.config();
@@ -11,12 +13,17 @@ dotenv.config();
 // database config
 connectDB();
 
+// es module fix
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // REST object
 const app = express();
 
 // middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "./client/build")));
 
 // routes
 app.use("/api", volunteerRoutes);
@@ -24,8 +31,8 @@ app.use("/api", volunteerRoutes);
 app.use("/allocation", allocationController);
 
 // REST API
-app.get("/", (req, res) => {
-  res.send("<h1>Welcome to Volunteers Registration</h1>");
+app.use("*", function (req, res) {
+  res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
 
 // PORT
