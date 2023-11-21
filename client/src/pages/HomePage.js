@@ -26,10 +26,16 @@ const HomePage = () => {
         availability: availability.split(","),
       });
       if (response.data.success) {
-        navigate("/");
         alert(response.data.message);
+        navigate("/");
+        setName("");
+        setEmail("");
+        setPhone("");
+        setLocation("");
+        setLanguage("");
+        setAvailability("");
       } else {
-        alert("Some Issue");
+        alert(response.data.message);
       }
     } catch (error) {
       console.log(error);

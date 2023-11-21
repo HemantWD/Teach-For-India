@@ -1,4 +1,7 @@
+import adminModel from "../model/adminModel.js";
 import volunteerModel from "../model/volunteerModel.js";
+import bcrypt from "bcrypt";
+import JWT from "jsonwebtoken";
 
 // METHOD:POST || REGISTER VOLUNTEER
 const registerVolunteerController = async (req, res) => {
@@ -68,6 +71,7 @@ const listofcandidates = async (req, res) => {
       list,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).send({
       success: false,
       message: "Unable to get list of candidates",
@@ -75,4 +79,56 @@ const listofcandidates = async (req, res) => {
     });
   }
 };
-export { registerVolunteerController, listofcandidates };
+
+// METHOD:POST || ADMIN LOGIN
+const adminLoginController = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    // validation
+    if (!email || !password) {
+      return res.status(404).send({
+        success: false,
+        message: "Invalid Email or password",
+      });
+    }
+    // checking admin
+    const admin = await adminModel.findOne({ email });
+    if (!admin) {
+      res.status(404).send({
+        success: false,
+        message: "No Admin is registered",
+      });
+    }
+
+    // decrypting password
+    const match = await bcrypt.compare(password, admin.password);
+    if (!match) {
+      res.status(200).send({
+        success: false,
+        message: "Invalid Password",
+      });
+    }
+
+    // token creation
+
+    const token = JWT.sign({ userId: admin._id }, process.env.JWT_SECRET, {
+      expiresIn: "15m",
+    });
+    res.status(200).send({
+      success: true,
+      message: "Logged In Successfully",
+      admin: {
+        name: admin.name,
+        email: admin.email,
+      },
+      token,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+export { registerVolunteerController, listofcandidates, adminLoginController };
