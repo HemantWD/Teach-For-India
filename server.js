@@ -5,17 +5,12 @@ import cors from "cors";
 import volunteerRoutes from "./routes/volunteerRoutes.js";
 import allocationController from "./routes/allocationRoute.js";
 import path from "path";
-import { fileURLToPath } from "url";
 
 // config env
 dotenv.config();
 
 // database config
 connectDB();
-
-// es module fix
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 // REST object
 const app = express();
@@ -31,8 +26,8 @@ app.use("/api", volunteerRoutes);
 app.use("/allocation", allocationController);
 
 // REST API
-app.use("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+app.use("/", function (req, res) {
+  res.send("<h1>Welcome</h1>");
 });
 
 // PORT
