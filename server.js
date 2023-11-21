@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import cors from "cors";
 import volunteerRoutes from "./routes/volunteerRoutes.js";
+import allocationController from "./routes/allocationRoute.js";
 
 // config env
 dotenv.config();
@@ -19,6 +20,8 @@ app.use(express.json());
 
 // routes
 app.use("/api", volunteerRoutes);
+// allocation route
+app.use("/allocation", allocationController);
 
 // REST API
 app.get("/", (req, res) => {
